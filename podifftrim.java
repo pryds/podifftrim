@@ -2,17 +2,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
 public class podifftrim {
 	public static void main(String[] args) {
-		if (args.length > 0) {
+		if (args.length == 0 || (debug=args[0].toLowerCase().contains("debug")) ) {
+			doIt();
+		} else {
 			System.err.println("No args! Use pipes!");
 			System.exit(1);
-		} else {
-			doIt();
 		}
 	}
 	
+	private static boolean debug;
 	private static BufferedReader in;
 	
 	private static void doIt() {
@@ -28,9 +28,12 @@ public class podifftrim {
 					) { // EOF, or new "block" found
 				//find out if buffer contains something interesting, write to System.out if so
 				if (currentBlockIsInteresting) {
-					System.out.println("~~~~~~~~~~~~ Interesting block begins here ~~~~~~~~~~~~\n" + block);
+					if (debug)
+						System.out.println("~~~~~~~~~~~~ Interesting block begins here ~~~~~~~~~~~~\n");
+					System.out.println(block);
 				} else {
-					System.out.println("¤¤¤¤¤¤¤¤¤¤¤¤ Uninteresting block begins here ¤¤¤¤¤¤¤¤¤¤¤¤\n" + block);
+					if (debug)
+						System.out.println("¤¤¤¤¤¤¤¤¤¤¤¤ Uninteresting block begins here ¤¤¤¤¤¤¤¤¤¤¤¤\n" + block);
 				}
 				
 				if (line == null)
@@ -50,7 +53,8 @@ public class podifftrim {
 					)) {
 				currentBlockIsInteresting = true;
 			}
-			block.append(line + "\n"); // add the line to buffer in either case
+			if ( !(line.length() >= 2 && line.substring(0, 2).equals("@@")) )
+				block.append(line + "\n"); // add the line to buffer in either case
 		}
 	}
 	
