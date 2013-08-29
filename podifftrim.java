@@ -7,7 +7,9 @@ public class podifftrim {
 		if (args.length == 0 || (debug=args[0].toLowerCase().contains("debug")) ) {
 			doIt();
 		} else {
-			System.err.println("No args! Use pipes!");
+			System.err.println("podifftrim 0.1\npodifftrim works through pipes. Only one parameter: -debug\n");
+			System.err.println("Usage examples:\n  git diff | java podifftrim > newfile\n  cat diff-file | java podifftrim | less\n");
+			System.err.println("Note: The output of podifftrim is NOT valid diff syntax!\n");
 			System.exit(1);
 		}
 	}
@@ -26,10 +28,10 @@ public class podifftrim {
 			if (line == null || line.trim().equals("") ||
 					(line.length() >= 2 && line.substring(0, 2).equals("@@"))
 					) { // EOF, or new "block" found
-				//find out if buffer contains something interesting, write to System.out if so
+				//find out if buffer contains something interesting, write to stdout if so
 				if (currentBlockIsInteresting) {
 					if (debug)
-						System.out.println("~~~~~~~~~~~~ Interesting block begins here ~~~~~~~~~~~~\n");
+						System.out.println("~~~~~~~~~~~~ Interesting block begins here ~~~~~~~~~~~~");
 					System.out.println(block);
 				} else {
 					if (debug)

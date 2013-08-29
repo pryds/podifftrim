@@ -1,0 +1,53 @@
+#!/usr/bin/python
+
+import sys
+
+debug = False
+
+def doIt():
+	block = []
+	currentBlockIsInteresting = False
+	while True:
+		line = sys.stdin.readline()
+		if (not line or line.strip() == "" or
+			(len(line) >= 2 and line[:2] == "@@")
+			):  # EOF, or new block found
+			# find out if buffer contains something interesting, write to stdout if so
+			if currentBlockIsInteresting:
+				if debug:
+					print "~~~~~~~~~~~~ Interesting block begins here ~~~~~~~~~~~~"
+				print "".join(block)
+			else:
+				if debug:
+					print "############ Uninteresting block begins here ############"
+					print "".join(block)
+			if not line:
+				sys.exit(0)
+			else:
+				block = []
+				currentBlockIsInteresting = False
+		
+		# is current line interesting? if so, whole block is interesting:
+		if (len(line) >= 2 and
+			(line[0] == "+" or line[0] == "-") and # only changed lines are interesting
+			(
+			line[1] != "#" or # but changed comments aren't interesting
+			"fuzzy" in line # except, changed fuzzy comments ARE interesting
+			)):
+			currentBlockIsInteresting = True
+		if not (len(line) >= 2 and line[:2] == "@@"):
+			block.append(line)
+
+# main
+if len(sys.argv) == 1:
+	debug = False
+	doIt()
+elif len(sys.argv) > 1 and "debug" in sys.argv[1]:
+	debug = True;
+	doIt()
+else:
+	print "podifftrim 0.1\npodifftrim works through pipes. Only one parameter: -debug\n"
+	print "Usage examples:\n  git diff | podifftrim > newfile\n  cat diff-file | podifftrim | less\n"
+	print "Note: The output of podifftrim is NOT valid diff syntax!\n"
+	sys.exit(1)
+
