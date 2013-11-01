@@ -59,3 +59,17 @@ See (almost) complete diff with interesting and uninteresting parts marked (for 
 
     git diff | podifftrim -debug | less
 
+Installing
+----------
+
+To install podifftrim on your system, make sure you have Python installed. Then, put the
+podifftrim script file in e.g. /usr/bin and make sure it's executable. Or to put it in
+another (Ubuntu) way:
+
+    sudo apt-get install python
+    cd /usr/bin
+    sudo wget https://github.com/pryds/podifftrim/blob/master/podifftrim
+    sudo chmod +x podifftrim
+
+The procedure for upgrading to the newest version is exactly the same, except you can
+omit the python line.
