@@ -47,7 +47,7 @@ elif len(sys.argv) > 1 and "debug" in sys.argv[1]:
 	doIt()
 else:
 	sys.stderr.write("podifftrim 0.1\npodifftrim works through pipes. Only one parameter: -debug\n\n")
-	sys.stderr.write("Usage examples:\n  git diff | podifftrim > newfile\n  cat diff-file | podifftrim | less\n\n")
+	sys.stderr.write("Usage examples:\n  git diff | podifftrim > newfile\n  cat diff-file | podifftrim | less\n  diff -u oldfile.po newfile.po | podifftrim\n\n")
 	sys.stderr.write("Note: The output of podifftrim is NOT valid diff syntax!\n\n")
 	sys.stderr.flush()
 	sys.exit(1)
